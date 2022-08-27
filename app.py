@@ -1,67 +1,32 @@
 #!/usr/bin/env python
 # encoding: utf-8
-import json
-
-from flask import Flask, jsonify, request
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-
-@app.route('/', methods=['GET'])
-def query_records():
-    name = request.args.get('name')
-    
-    print (name)
-    
-    with open('/tmp/data.txt', 'r') as f:
-        data = f.read()
-        records = json.loads(data)
-        for record in records:
-            if record['name'] == name:
-                return jsonify(record)
-        return jsonify({'error': 'data not found'})
-
-@app.route('/', methods=['PUT'])
-def create_record():
-    record = json.loads(request.data)
-    with open('/tmp/data.txt', 'r') as f:
-        data = f.read()
-    if not data:
-        records = [record]
-    else:
-        records = json.loads(data)
-        records.append(record)
-    with open('/tmp/data.txt', 'w') as f:
-        f.write(json.dumps(records, indent=2))
-    return jsonify(record)
-
-@app.route('/', methods=['POST'])
-def update_record():
-    record = json.loads(request.data)
-    new_records = []
-    with open('/tmp/data.txt', 'r') as f:
-        data = f.read()
-        records = json.loads(data)
-    for r in records:
-        if r['name'] == record['name']:
-            r['email'] = record['email']
-        new_records.append(r)
-    with open('/tmp/data.txt', 'w') as f:
-        f.write(json.dumps(new_records, indent=2))
-    return jsonify(record)
-    
-@app.route('/', methods=['DELETE'])
-def delte_record():
-    record = json.loads(request.data)
-    new_records = []
-    with open('/tmp/data.txt', 'r') as f:
-        data = f.read()
-        records = json.loads(data)
-        for r in records:
-            if r['name'] == record['name']:
-                continue
-            new_records.append(r)
-    with open('/tmp/data.txt', 'w') as f:
-        f.write(json.dumps(new_records, indent=2))
-    return jsonify(record)
-
-app.run(debug=True)
+ 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = '123456'
+app.config['MYSQL_DB'] = 'flask'
+ 
+mysql = MySQL(app)
+ 
+@app.route('/form')
+def form():
+    return render_template('form.html')
+ 
+@app.route('/login', methods = ['POST', 'GET'])
+def login():
+    if request.method == 'GET':
+        return "Login via the login Form"
+     
+    if request.method == 'POST':
+        name = request.form['name']
+        age = request.form['age']
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' INSERT INTO users VALUES(%s,%s)''',(name,age))
+        mysql.connection.commit()
+        cursor.close()
+ 
+app.run(host='localhost', port=5000)
