@@ -33,12 +33,18 @@ Let's focus on installing it on our machine and testing to see if we can get a b
 After installing the package, we will create a file called hello.py and add five lines of code to it.
 
 ```python
-from flask import Flask
-app = Flask(**name**)
+    from flask import Flask
 
-@app.route("/")
-def hello_world():
-return "Hello, World!"
+    app = Flask(__name__)
+
+    @app.route("/")
+    def index():
+        return "<h1>Hello!</h1>"
+
+    if __name__ == "__main__":
+        from waitress import serve
+        serve(app, host="127.0.0.1", port=8080)
+
 ```
 
 ## Python Modules
