@@ -32,15 +32,14 @@ Let's focus on installing it on our machine and testing to see if we can get a b
 `pip install Flask`
 After installing the package, we will create a file called hello.py and add five lines of code to it.
 
-`
+```python
 from flask import Flask
 app = Flask(**name**)
 
 @app.route("/")
 def hello_world():
 return "Hello, World!"
-
-`
+```
 
 ## Python Modules
 
