@@ -50,3 +50,103 @@ After installing the package, we will create a file called hello.py and add five
 ## Python Modules
 
 Like other mainstream programming languages, Python also has the concept of modules to enable developers to organize source code according to subjects/functionalities.
+
+## Flask connect with Mysql
+
+Flask connects to MySQL via the flask mysqldb connector. To install the package, use the following command:
+`pip install flask_mysqldb`
+
+## Setting Up Flask MySQL Database
+
+Step 1: Connecting a Flask Application to a MySQL Database
+
+```python
+    from flask import Flask,render_template, request
+    from flask_mysqldb import MySQL
+
+    app = Flask(__name__)
+
+    app.config['MYSQL_HOST'] = 'localhost'
+    app.config['MYSQL_USER'] = 'root'
+    app.config['MYSQL_PASSWORD'] = ''
+    app.config['MYSQL_DB'] = 'flask'
+
+    mysql = MySQL(app)
+
+```
+
+Step 2: Configuring the MySQL Connection Cursor
+
+```python
+    mysql = MySQL(app)
+
+    #Creating a connection cursor
+    cursor = mysql.connection.cursor()
+
+    #Executing SQL Statements
+    cursor.execute(''' CREATE TABLE table_name(field1, field2...) ''')
+    cursor.execute(''' INSERT INTO table_name VALUES(v1,v2...) ''')
+    cursor.execute(''' DELETE FROM table_name WHERE condition ''')
+
+    #Saving the Actions performed on the DB
+    mysql.connection.commit()
+
+    #Closing the cursor
+    cursor.close()
+```
+
+Step 3: Programming a Flask application
+
+```python
+
+    from flask import Flask,render_template, request
+    from flask_mysqldb import MySQL
+
+    app = Flask(__name__)
+
+    app.config['MYSQL_HOST'] = 'localhost'
+    app.config['MYSQL_USER'] = 'root'
+    app.config['MYSQL_PASSWORD'] = ''
+    app.config['MYSQL_DB'] = 'flask'
+
+    mysql = MySQL(app)
+
+    @app.route('/form')
+    def form():
+        return render_template('form.html')
+
+    @app.route('/login', methods = ['POST', 'GET'])
+    def login():
+        if request.method == 'GET':
+            return "Login via the login Form"
+
+        if request.method == 'POST':
+            name = request.form['name']
+            age = request.form['age']
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' INSERT INTO info_table VALUES(%s,%s)''',(name,age))
+            mysql.connection.commit()
+            cursor.close()
+            return f"Done!!"
+
+    app.run(host='localhost', port=5000)
+
+```
+
+The form.html will be as follows:
+
+```html
+<form action="/login" method="POST">
+  <p>name <input type="text" name="name" /></p>
+  <p>age <input type="integer" name="age" /></p>
+  <p><input type="submit" value="Submit" /></p>
+</form>
+```
+
+Step 4: Putting the Code into Action
+
+- Now start the server and navigate to “/form”
+- Enter the information and press the Submit button.
+- Let’s take a look at it in the phpMyAdmin web interface now.
+
+Finally! This concludes the Setting Up Flask MySQL Database Connection
