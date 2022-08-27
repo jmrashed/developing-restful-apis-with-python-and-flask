@@ -18,25 +18,41 @@ mysql = MySQL(app)
 def main():
     return render_template('index.html')
  
+@app.route('/products')
+def products():
+    cursor = mysql.connection.cursor()
+    sql= '''SELECT id, name, slug, serial, published, thumbnail_img from products  LIMIT 500'''
+    
+    
+    cursor.execute(sql)
+    products = cursor.fetchall()
+  
+    return render_template('products.html', items=products)
+ 
+ 
+@app.route('/brands')
+def brands():
+    cursor = mysql.connection.cursor()
+    sql= '''SELECT id, name, slug from brands  LIMIT 50'''
+    cursor.execute(sql)
+    brands = cursor.fetchall() 
+    return render_template('brands.html', items=brands)
+ 
 @app.route('/users')
 def users():
     cursor = mysql.connection.cursor()
-    sql= '''SELECT id, name, email from users  LIMIT 5'''
+    sql= '''SELECT id, name, email from users  LIMIT 50'''
     cursor.execute(sql)
-    users = cursor.fetchall()
-    
-    sql= '''SELECT id, name,slug from brands  LIMIT 5'''
+    users = cursor.fetchall() 
+    return render_template('users.html', items=users)
+ 
+@app.route('/categories')
+def categories():
+    cursor = mysql.connection.cursor()
+    sql= '''SELECT id, name, slug, serial, banner, flat_icon from categories  LIMIT 50'''
     cursor.execute(sql)
-    brands = cursor.fetchall()
-   
-
-    sql= '''SELECT id, name,slug from categories where parent_id=0  LIMIT 5'''
-    cursor.execute(sql)
-    categories = cursor.fetchall()
-   
-
-
-    return render_template('index.html', users=users,brands=brands, categories=categories)
+    categories = cursor.fetchall() 
+    return render_template('categories.html', items=categories)
 
 
 @app.route('/form')

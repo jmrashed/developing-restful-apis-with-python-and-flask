@@ -1,0 +1,29 @@
+{% extends "layout.html" %} {% block title %}categories{% endblock %} {% block
+content %}
+<h1>categories</h1>
+
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <tr>
+        id, name, slug, serial, banner, flat_icon
+
+        <th>SL</th>
+        <th>Name</th>
+        <th>slug</th>
+        <th>Serial</th>
+        <th>slug</th>
+        <th>Serbanner</th>
+      </tr>
+      {% for item in items %}
+      <tr>
+        <th>{{item[0]}}</th>
+        <th>{{item[1]}}</th>
+        <th>{{item[2]}}</th>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}
