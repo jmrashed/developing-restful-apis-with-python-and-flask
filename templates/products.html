@@ -18,21 +18,27 @@ content %}
       <tdody>
         {% for item in items %}
       <tr>
-        <th>{{item[0]}}</th>
-        <th>
+        <td>{{item[0]}}</td>
+        <td>
             {{item[5]}}
-        </th>
-        <th>{{item[1]}}</th>
-        <th>{{item[2]}}</th>
-        <th>{{item[3]}}</th>
-        <th>
-          {% if item[4] ==1 %} <spna class=" text-primary"> published </span> {% else %} <spna class=" text-danger"> unpublished  </span> {% endif %}
-        </th>
+        </td>
+        <td>{{item[1]}}</td>
+        <td>{{item[2]}}</td>
+        <td>{{item[3]}}</td>
+        <td>
+          {% if item[4] ==1 %}
+            <spna class=" text-primary"> published </spna>
+            {% else %}
+            <spna class=" text-danger"> unpublished  </spna>
+            {% endif %}
+        </td>
         <th>
             <a href="{{url_for('products')}}/edit/{{item[0]}}"> Edit</a>  | 
             <a href="{{url_for('products')}}/delete/{{item[0]}}"> Delete</a>  | 
             <a href="{{url_for('products')}}/published/{{item[0]}}"> Published</a>  
         </th>
+
+
       </tr>
       {% endfor %}
       </tdody>
