@@ -6,6 +6,11 @@ Let's learn how to develop RESTful APIs with Python and Flask. We are going to u
 
 Nowadays, choosing Python to develop applications is becoming a very popular choice. Python is one of the fastest-growing programming languages, having surpassed even Java on the number of questions asked on the platform.
 
+## Python Version
+We recommend using the latest version of Python. Flask supports Python 3.7 and newer.
+
+
+
 ## Why Flask?
 
 When it comes to web development on Python, there are two frameworks that are widely used: Django and Flask. Django is older, more mature, and a little bit more popular. Even though Django is older and having a slightly bigger community, Flask has its strengths.

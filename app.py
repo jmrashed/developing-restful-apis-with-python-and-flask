@@ -9,7 +9,7 @@ app = Flask(__name__ , template_folder='templates')
  
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '123456'
+app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'sookh'
  
 mysql = MySQL(app)
@@ -21,7 +21,7 @@ def main():
 @app.route('/products')
 def products():
     cursor = mysql.connection.cursor()
-    sql= '''SELECT id, name, slug, serial, published, thumbnail_img from products  LIMIT 500'''
+    sql= '''SELECT id, name, slug, serial, published, thumbnail_img from products'''
     
     
     cursor.execute(sql)
@@ -41,7 +41,7 @@ def brands():
 @app.route('/users')
 def users():
     cursor = mysql.connection.cursor()
-    sql= '''SELECT id, name, email from users  LIMIT 50'''
+    sql= '''SELECT id, name, email from users  LIMIT 500'''
     cursor.execute(sql)
     users = cursor.fetchall() 
     return render_template('users.html', items=users)
@@ -49,7 +49,7 @@ def users():
 @app.route('/categories')
 def categories():
     cursor = mysql.connection.cursor()
-    sql= '''SELECT id, name, slug, serial, banner, flat_icon from categories  LIMIT 50'''
+    sql= '''SELECT id, name, slug, banner, flat_icon from categories  LIMIT 500'''
     cursor.execute(sql)
     categories = cursor.fetchall() 
     return render_template('categories.html', items=categories)
@@ -72,4 +72,4 @@ def login():
         mysql.connection.commit()
         cursor.close()
  
-app.run(host='localhost', port=5000, debug=True)
+app.run(host='localhost', port=8080, debug=True)
