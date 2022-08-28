@@ -21,7 +21,7 @@ def main():
 @app.route('/products')
 def products():
     cursor = mysql.connection.cursor()
-    sql= '''SELECT id, name, slug, serial, published, thumbnail_img from products'''
+    sql= '''SELECT id, name, slug, serial, published, thumbnail_img from products LIMIT 100'''
     
     
     cursor.execute(sql)
