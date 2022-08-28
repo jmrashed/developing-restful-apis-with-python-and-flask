@@ -1,0 +1,33 @@
+{% extends "layout.html" %} {% block title %}brands{% endblock %} {% block
+content %}
+<h1>brands</h1>
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <tr>
+        <th>SL</th>
+        <th>Name</th>
+        <th>slug</th>
+        <th>serial</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      {% for item in items %}
+      <tr>
+        <th>{{item[0]}}</th>
+        <th>{{item[1]}}</th>
+        <th>{{item[2]}}</th>
+        <th>
+          {% if item[4] ==1 %} <spna class=" text-primary"> published </span> {% else %} <spna class=" text-danger"> unpublished  </span> {% endif %}
+        </th>
+        <th>
+            <a href="{{url_for('products')}}/edit/{{item[0]}}"> Edit</a>  | 
+            <a href="{{url_for('products')}}/delete/{{item[0]}}"> Delete</a>  | 
+            <a href="{{url_for('products')}}/published/{{item[0]}}"> Published</a>  
+        </th>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}
